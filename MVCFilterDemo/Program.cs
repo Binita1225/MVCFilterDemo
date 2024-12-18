@@ -1,9 +1,17 @@
+using MVCFilterDemo.Filters;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add<MyExceptionFilter>(); //register exception filter globally
+}
+);
 
 var app = builder.Build();
+
+app.UseResponseCaching();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
