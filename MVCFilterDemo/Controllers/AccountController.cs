@@ -6,19 +6,21 @@ namespace MVCFilterDemo.Controllers
 {
     public class AccountController : Controller
     {
-        public IActionResult Login()
+        [HttpPost]
+        public IActionResult Login(string username, string password)
         {
-            var claims = new List<Claim> 
+            if (username == "test" && password == "password") {
+                var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, "TestUser"),
-                new Claim(ClaimTypes.Role, "Admin")
+                new Claim(ClaimTypes.Name, username),
             };
 
-            var identity = new ClaimsIdentity(claims, "TestAuth");
-            var principal = new ClaimsPrincipal(identity);
-
-            HttpContext.SignInAsync(principal);
-            return RedirectToAction("Index", "Secure");
+                var identity = new ClaimsIdentity(claims, "Login");
+                var principal = new ClaimsPrincipal(identity);
+                HttpContext.SignInAsync(principal);
+                return RedirectToAction("SecurePage", "Home");
+            }
+            return View();
         }
 
         public IActionResult Logout() 

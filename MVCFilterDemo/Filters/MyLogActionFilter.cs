@@ -9,10 +9,12 @@ namespace MVCFiltersDemo.Filters
         // Runs BEFORE the action method executes
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            var controller = context.RouteData.Values["controller"];
-            var action = context.RouteData.Values["action"];
-            //Log("OnActionExecuting", context.RouteData);
-            Debug.WriteLine($"[MyLogActionFilter] Executing action: {controller}/{action}");
+            //var controller = context.RouteData.Values["controller"];
+            //var action = context.RouteData.Values["action"];
+
+            // Debug.WriteLine($"[MyLogActionFilter] Executing action: {controller}/{action}");
+            Debug.WriteLine("Action Executing: " + context.ActionDescriptor.DisplayName);
+            base.OnActionExecuting(context);
         }
 
         // Runs AFTER the action method executes

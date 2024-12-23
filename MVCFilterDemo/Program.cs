@@ -9,6 +9,14 @@ builder.Services.AddControllersWithViews(options =>
 }
 );
 
+// Add authentication services and configure cookie-based authentication
+builder.Services.AddAuthentication("Cookies")
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Home/Login";  // Path to the login page
+        options.AccessDeniedPath = "/Home/AccessDenied";  // Optional: Path for access denied
+    });
+
 var app = builder.Build();
 
 app.UseResponseCaching();
@@ -21,11 +29,13 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
